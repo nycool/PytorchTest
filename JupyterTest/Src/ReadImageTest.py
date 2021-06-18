@@ -9,12 +9,11 @@ image=cv2.imread(r'D:\Code\Test\Self\PytorchTest\JupyterTest\Image\1.png')
 imageGray=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
 
 
-cv2.threshold(imageGray,200,255,type=cv2.THRESH_BINARY_INV,dst=imageGray)
+cv2.threshold(imageGray,125,255,type=cv2.THRESH_BINARY_INV,dst=imageGray)
 
+# opsize=cv2.getStructuringElement(shape=cv2.MORPH_RECT,ksize=(2,2))
 
-opsize=cv2.getStructuringElement(shape=cv2.MORPH_RECT,ksize=(2,2))
-
-cv2.morphologyEx(imageGray,cv2.MORPH_CLOSE,opsize,imageGray)
+# cv2.morphologyEx(imageGray,cv2.MORPH_CLOSE,opsize,imageGray)
 
 input=cv2.resize(imageGray,(28,28))
 
