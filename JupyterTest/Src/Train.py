@@ -8,7 +8,7 @@ from torchvision import datasets
 from torchvision import transforms
 import torch.nn.functional as F
 import torch.optim as optim
-import torch.utils.data
+from torch.utils.tensorboard import SummaryWriter
 import matplotlib.pyplot as plt
 
 dataSet=datasets.MNIST('data', train=True, download=True,
@@ -18,10 +18,10 @@ dataSet=datasets.MNIST('data', train=True, download=True,
                    ]))
 
 
-train_data=dataloader.DataLoader(dataset=dataSet,batch_size=64,shuffle=True)
+train_data=dataloader.DataLoader(dataset=dataSet,batch_size=1000,shuffle=True)
 
 
-test_data=dataloader.DataLoader(datasets.MNIST('../data', train=False,download=True,
+test_data=dataloader.DataLoader(datasets.MNIST('data', train=False,download=True,
                    transform=transforms.Compose([
                        transforms.ToTensor(),
                        transforms.Normalize((0.137,),(0.3081,))
@@ -52,9 +52,14 @@ lossF=torch.nn.NLLLoss()
 # network.load_state_dict(p)
 
 
+writer=SummaryWriter("log")
+
+
 for epoch in range(6000):
     network.train()
     for batch_idx,(image,target) in enumerate(train_data):
+        writer.add_images("log",image)
+
         optimizer.zero_grad()
         output=network(image)
         loss=lossF(output,target)
@@ -76,12 +81,4 @@ for epoch in range(6000):
 
                 a=i/len(test_data)
                 print(1-a)      
-                       
-
- 
-
-
-
-
-
-    
+        writer.close()                  

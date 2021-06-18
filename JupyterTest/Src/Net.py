@@ -1,5 +1,6 @@
 from torch import nn
 import torch.nn.functional as F
+import cv2
 
 
 class Net(nn.Module):
@@ -21,6 +22,8 @@ class Net(nn.Module):
     def forward(self, x):
        
         x=self.moudle(x)
+
+        
 
         x = x.view(-1, 1000)
         x = F.relu(self.fc1(x))
@@ -50,7 +53,16 @@ class Net1(nn.Module):
         x=self.moudle(x)
 
         x = x.view(-1, 640)
-        x = F.relu(self.fc1(x))
+
+
+        x=self.fc1(x)
+
+        print(x)
+        
+        x = F.relu(x)
+
+        print(x)
+
         x = F.dropout(x, training=self.training)
         x = self.fc2(x)
         return F.log_softmax(x)
